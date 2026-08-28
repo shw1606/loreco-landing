@@ -30,6 +30,46 @@ function DemoSlot({ children }: { children: React.ReactNode }) {
   );
 }
 
+const MLC_ROWS = [
+  { label: "미국 곡", n: 52, pct: 84.6 },
+  { label: "한국 주류", n: 109, pct: 59.6 },
+  { label: "한국 OST", n: 30, pct: 40.0 },
+  { label: "한국 인디", n: 30, pct: 16.7 },
+];
+
+function MlcChart() {
+  return (
+    <div className="rounded-lg border border-[var(--line)] bg-white p-5">
+      <p className="text-[15px] font-medium">
+        MLC 공개 DB에서 곡의 녹음(ISRC) 연결을 확인할 수 있었던 비율
+      </p>
+      <div className="mt-4 space-y-3">
+        {MLC_ROWS.map((r) => (
+          <div key={r.label}>
+            <div className="flex items-baseline justify-between text-[14px]">
+              <span>
+                {r.label} <span className="text-[var(--muted)]">({r.n}곡)</span>
+              </span>
+              <span className="font-semibold">{r.pct}%</span>
+            </div>
+            <div className="mt-1 h-2.5 rounded-full bg-[var(--paper)]">
+              <div
+                className="h-2.5 rounded-full bg-[var(--accent)]"
+                style={{ width: `${r.pct}%` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="mt-4 text-[13px] leading-relaxed text-[var(--muted)]">
+        표본 221곡, 2026년 8월, MLC 공개 작품 검색을 직접 조회한 결과입니다. 곡을
+        특정하지 못했거나 조회가 안 된 표본은 연결 확인으로 치지 않았으므로, 실제
+        연결률은 이보다 높을 수 있습니다. 그 차이 자체가 확인 비용의 문제입니다.
+      </p>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <main className="mx-auto max-w-2xl px-5 py-16">
@@ -82,9 +122,7 @@ export default function Home() {
             곡이 등록되어 있지 않으면 그 몫은 주인을 찾지 못한 채 남습니다. 공개 DB라서
             누구나 조회할 수 있어서, 한국 곡을 표본으로 직접 조회해 봤습니다.
           </p>
-          <DemoSlot>
-            표본조사 결과 요약을 준비하고 있습니다. 조사 방법과 시점을 함께 적습니다.
-          </DemoSlot>
+          <MlcChart />
         </Section>
 
         <Section
