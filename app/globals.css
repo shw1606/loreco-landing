@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+:root {
+  --ink: #1c1c1a;
+  --paper: #fafaf8;
+  --accent: #1f4d3d;
+  --muted: #6b6b66;
+  --line: #e4e4df;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Noto Sans KR", "Segoe UI", sans-serif;
+  word-break: keep-all;
+}
