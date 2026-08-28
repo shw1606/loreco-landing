@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { COPY, type Locale } from "@/lib/copy";
 
 const PRESET = `(주)지니뮤직
 KT지니뮤직
@@ -39,7 +40,8 @@ function keyOf(norm: string): string {
   return norm;
 }
 
-export default function MatchDemo() {
+export default function MatchDemo({ locale }: { locale: Locale }) {
+  const c = COPY[locale].match;
   const [text, setText] = useState(PRESET);
   const [groups, setGroups] = useState<Record<string, string[]> | null>(null);
 
@@ -56,29 +58,22 @@ export default function MatchDemo() {
 
   return (
     <div className="rounded-xl border border-[var(--line)] bg-[var(--card)] p-4">
-      <p className="text-[13px] font-medium text-[var(--muted)]">
-        시스템마다 다르게 적힌 권리자 표기를 넣어 보세요 (예시가 채워져 있습니다)
-      </p>
+      <p className="text-[13px] font-medium text-[var(--muted)]">{c.pick}</p>
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
         rows={7}
         className="mt-3 w-full rounded-lg border border-[var(--line)] bg-black/30 p-3 font-mono text-[13px] leading-relaxed text-[var(--text)]"
       />
-      <button
-        onClick={run}
-        className="btn-grad mt-3 rounded-full px-5 py-2 text-[14px] font-semibold text-white"
-      >
-        같은 권리자끼리 묶기
+      <button onClick={run} className="btn-grad mt-3 rounded-full px-5 py-2 text-[14px] font-semibold text-white">
+        {c.run}
       </button>
 
       {groups && (
         <div className="mt-4 space-y-3">
           {Object.entries(groups).map(([k, names]) => (
             <div key={k} className="rounded-lg border border-[var(--line)] bg-white/5 p-3">
-              <p className="text-[13px] font-semibold text-[#a78bfa]">
-                엔티티 {names.length}건 병합
-              </p>
+              <p className="text-[13px] font-semibold text-[#a78bfa]">{c.merged(names.length)}</p>
               <ul className="mt-1.5 space-y-0.5 text-[14px]">
                 {names.map((n) => (
                   <li key={n}>{n}</li>
@@ -86,10 +81,7 @@ export default function MatchDemo() {
               </ul>
             </div>
           ))}
-          <p className="text-[12px] leading-relaxed text-[var(--muted)]">
-            법인 접미어 제거, 한영 표기 정규화, 포함 관계 병합을 거친 결과입니다. 예시
-            데이터로 동작하는 데모이며, 실제 처리는 더 넓은 사전과 검증 단계를 씁니다.
-          </p>
+          <p className="text-[12px] leading-relaxed text-[var(--muted)]">{c.note}</p>
         </div>
       )}
     </div>

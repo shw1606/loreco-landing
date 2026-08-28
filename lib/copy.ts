@@ -1,0 +1,156 @@
+export type Locale = "ko" | "en";
+
+export function resolveLocale(v: string | undefined): Locale {
+  return v === "en" ? "en" : "ko";
+}
+
+export const COPY = {
+  ko: {
+    nav: { reconcile: "정산 대사", trace: "로열티 추적", match: "권리자 매칭", contact: "문의" },
+    hero: {
+      eyebrow: "Music Royalty Data Platform",
+      h1a: "음원 수익 데이터를",
+      h1grad: "권리자별 분배까지",
+      h1b: " 잇습니다",
+      sub: "유통사마다 다른 정산서, 해외에 잠자는 로열티, 시스템마다 제각각인 권리자 표기. Loreco는 음악 산업의 정산 데이터가 새는 세 지점을 AI로 풉니다.",
+      ctaDemo: "데모 바로 보기",
+      ctaContact: "문의하기",
+      note: "아래 데모는 전부 이 페이지에서 바로 동작합니다.",
+    },
+    reconcile: {
+      title: "정산 대사",
+      desc: "유통사, 해외 리포트, 방송 사용료. 포맷이 전부 다른 정산서를 표준으로 읽어 곡을 하나로 맞추고, 권리자별 분배표까지 만듭니다. 합계가 맞는지 대사 로그로 증명합니다.",
+      caption: "예시 데이터로 동작하는 데모입니다.",
+      tabs: ["국내 유통사", "해외 유통 리포트", "방송 사용료"],
+      headA: ["곡명", "서비스구분", "재생수", "지급액"],
+      headC: ["곡명", "사용구분", "사용료"],
+      generate: "권리자별 분배표 생성",
+      headR: ["권리자", "역할", "곡", "지분", "분배액"],
+      total: "합계",
+      roles: { compose: "작곡", lyrics: "작사", arrange: "편곡" },
+      logMerge:
+        '병합: 해외 리포트의 "Neon Night"는 ISRC(KRZ012400001)가 국내 정산서의 "밤의 도시"와 같은 곡입니다. 표기가 달라도 하나로 합쳤습니다.',
+      logFx: "환산: USD 합계는 예시 환율 1달러 1,350원으로 원화 환산했습니다.",
+      logRecon: (a: string, b: string) => `대사: 수입 합계 ${a} = 분배 합계 ${b}, 차액 0원.`,
+      back: "원본 정산서 다시 보기",
+    },
+    trace: {
+      title: "해외 로열티 추적",
+      desc: "한국 곡이 미국에서 재생되면 기계적 복제권 사용료는 MLC에 쌓입니다. 작품이 등록돼 있지 않거나 녹음이 연결돼 있지 않으면 그 몫은 주인을 찾지 못합니다. 해외 징수 기관의 공개 DB를 조회해 그 구멍을 찾아냅니다.",
+      pick: "곡을 선택하면 미국 MLC 공개 DB 조회 결과를 보여줍니다",
+      badges: { MLC_MATCHED: "정상 연결", MLC_WORK_ONLY: "원곡 녹음 미연결", MLC_UNMATCHED: "작품 미등록" },
+      verified: "확인됨",
+      notFound: "확인 안 됨",
+      rows: {
+        work: "MLC 작품 등록",
+        iswc: "ISWC (국제 작품 코드)",
+        isrc: "이 곡의 원곡 녹음(ISRC) 연결",
+        recs: "작품에 연결된 녹음 수",
+      },
+      recsUnit: "건",
+      workOnlyNote:
+        "작품은 등록돼 있지만 원곡 녹음이 연결돼 있지 않습니다. 이 상태에서는 미국 스트리밍에서 발생한 기계적 복제권 사용료가 권리자와 이어지지 못할 수 있습니다.",
+      unmatchedNote: "ISRC로도, 제목(로마자 표기 포함)으로도 MLC에서 작품을 찾지 못했습니다.",
+      caveat: "2026년 8월 MLC 공개 작품 검색을 직접 조회한 결과입니다. 조회 시점 이후 등록이나 연결이 바뀌었을 수 있습니다.",
+      chartTitle: "표본 221곡 조사: MLC에서 녹음 연결을 확인할 수 있었던 비율",
+      chartRows: { us: "미국 곡", main: "한국 주류", ost: "한국 OST", indie: "한국 인디" },
+      songsUnit: "곡",
+      chartCaveat:
+        "2026년 8월 자체 표본조사. 곡을 특정하지 못했거나 조회가 안 된 표본은 연결 확인으로 치지 않았으므로 실제 연결률은 이보다 높을 수 있습니다. 그 차이 자체가 확인 비용의 문제입니다.",
+      strata: { "한국 주류": "한국 주류", "한국 인디": "한국 인디", "한국 OST": "한국 OST", 미국: "미국" },
+    },
+    match: {
+      title: "권리자 매칭",
+      desc: "같은 회사, 같은 사람이 시스템마다 다른 표기로 적혀 있습니다. 신탁 단체의 미매칭 로그, 유통사 메타데이터, 방송 큐시트가 서로 안 맞는 이유의 상당 부분이 표기 문제입니다. 표기를 정규화해 하나의 엔티티로 묶습니다.",
+      pick: "시스템마다 다르게 적힌 권리자 표기를 넣어 보세요 (예시가 채워져 있습니다)",
+      run: "같은 권리자끼리 묶기",
+      merged: (n: number) => `엔티티 ${n}건 병합`,
+      note: "법인 접미어 제거, 한영 표기 정규화, 포함 관계 병합을 거친 결과입니다. 예시 데이터로 동작하는 데모이며, 실제 처리는 더 넓은 사전과 검증 단계를 씁니다.",
+    },
+    tech: {
+      title: "가사 100만 곡을 읽는 엔진 위에서",
+      desc: "Loreco는 가사 100만 곡을 요약하고 임베딩해서 이야기로 노래를 찾는 검색 엔진을 직접 구축해 운영해 왔습니다. 흩어진 음악 데이터를 대규모로 읽고 연결하는 이 기술이 위 세 제품의 기반입니다.",
+      cta: "Loreco Search 직접 써보기",
+    },
+    contact: {
+      title: "문의",
+      desc: "정산이나 권리 데이터 문제로 겪고 계신 일이 있다면 무엇이든 편하게 보내주세요. 도입 문의, 데모 요청, 제휴 제안 모두 환영합니다. 하루 안에 답장드립니다.",
+      cta: "메일 보내기",
+    },
+    footer: "Loreco | 대표 서현우",
+  },
+  en: {
+    nav: { reconcile: "Reconcile", trace: "Trace", match: "Match", contact: "Contact" },
+    hero: {
+      eyebrow: "Music Royalty Data Platform",
+      h1a: "Music revenue data, connected",
+      h1grad: "to every rightsholder",
+      h1b: "",
+      sub: "Every distributor formats statements differently. Royalties sit unclaimed overseas. The same rightsholder is spelled five ways across systems. Loreco fixes the three places where music royalty data leaks, with AI.",
+      ctaDemo: "See the demos",
+      ctaContact: "Contact us",
+      note: "Every demo below runs right on this page.",
+    },
+    reconcile: {
+      title: "Statement reconciliation",
+      desc: "Distributor statements, overseas reports, broadcast fees. Loreco reads statements in any format into one standard, matches songs across sources, and builds per-rightsholder distribution sheets. A reconciliation log proves the totals match.",
+      caption: "This demo runs on sample data.",
+      tabs: ["Domestic distributor", "Overseas report", "Broadcast fees"],
+      headA: ["Song", "Service", "Plays", "Payout"],
+      headC: ["Song", "Usage", "Fee"],
+      generate: "Generate distribution sheet",
+      headR: ["Rightsholder", "Role", "Song", "Share", "Payout"],
+      total: "Total",
+      roles: { compose: "Composer", lyrics: "Lyricist", arrange: "Arranger" },
+      logMerge:
+        'Merge: "Neon Night" in the overseas report shares ISRC KRZ012400001 with "밤의 도시" in the domestic statement. Different spellings, one song.',
+      logFx: "Conversion: USD totals converted at a sample rate of 1,350 KRW per USD.",
+      logRecon: (a: string, b: string) => `Reconciled: income total ${a} = payout total ${b}, difference 0.`,
+      back: "View original statements",
+    },
+    trace: {
+      title: "Overseas royalty tracing",
+      desc: "When a Korean song streams in the US, mechanical royalties accumulate at The MLC. If the work is not registered, or the recording is not linked, that money never reaches its owner. We query collection societies' public databases to find those gaps.",
+      pick: "Pick a song to see its status in the US MLC public database",
+      badges: { MLC_MATCHED: "Linked", MLC_WORK_ONLY: "Recording not linked", MLC_UNMATCHED: "Work not registered" },
+      verified: "Verified",
+      notFound: "Not found",
+      rows: {
+        work: "MLC work registration",
+        iswc: "ISWC (international work code)",
+        isrc: "Original recording (ISRC) linked",
+        recs: "Recordings linked to the work",
+      },
+      recsUnit: "",
+      workOnlyNote:
+        "The work is registered, but the original recording is not linked to it. In this state, US streaming mechanicals for this song may never reach the rightsholders.",
+      unmatchedNote: "No work found in the MLC by ISRC or by title, romanized spellings included.",
+      caveat: "Queried directly against the MLC public work search in August 2026. Registrations and links may have changed since.",
+      chartTitle: "A 221-song sample: how often the recording link could be confirmed in the MLC",
+      chartRows: { us: "US songs", main: "Korean mainstream", ost: "Korean OST", indie: "Korean indie" },
+      songsUnit: " songs",
+      chartCaveat:
+        "Our own sampling, August 2026. Songs we could not identify or query were not counted as confirmed, so true link rates may be higher. That gap is itself the cost of verification.",
+      strata: { "한국 주류": "Korean mainstream", "한국 인디": "Korean indie", "한국 OST": "Korean OST", 미국: "US" },
+    },
+    match: {
+      title: "Rightsholder matching",
+      desc: "The same company, the same person, spelled differently in every system. Unmatched logs at collection societies, distributor metadata, and broadcast cue sheets disagree largely because of spelling. We normalize the variants into one entity.",
+      pick: "Paste rightsholder names as different systems spell them (examples prefilled)",
+      run: "Group the same rightsholder",
+      merged: (n: number) => `${n} spellings merged into one entity`,
+      note: "Corporate suffixes removed, Korean-English variants normalized, containment merged. This demo runs on sample rules; production uses a wider dictionary and verification steps.",
+    },
+    tech: {
+      title: "Built on an engine that reads a million lyrics",
+      desc: "Loreco built and operates a search engine that summarizes and embeds one million song lyrics, so songs can be found by the story they tell. That capability to read and connect music data at scale underpins the three products above.",
+      cta: "Try Loreco Search",
+    },
+    contact: {
+      title: "Get in touch",
+      desc: "Whatever you are dealing with in royalty or rights data, we would love to hear about it. Product inquiries, demo requests, partnerships, all welcome. We reply within a day.",
+      cta: "Email us",
+    },
+    footer: "Loreco | Hyunwoo Seo",
+  },
+} as const;
