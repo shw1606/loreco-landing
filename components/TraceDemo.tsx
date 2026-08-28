@@ -17,14 +17,14 @@ type Sample = {
 const LIST = samples as Sample[];
 
 const BADGE = {
-  MLC_MATCHED: { label: "정상 연결", cls: "bg-emerald-100 text-emerald-900" },
-  MLC_WORK_ONLY: { label: "원곡 녹음 미연결", cls: "bg-amber-100 text-amber-900" },
-  MLC_UNMATCHED: { label: "작품 미등록", cls: "bg-red-100 text-red-900" },
+  MLC_MATCHED: { label: "정상 연결", cls: "bg-emerald-400/15 text-emerald-300" },
+  MLC_WORK_ONLY: { label: "원곡 녹음 미연결", cls: "bg-amber-400/15 text-amber-300" },
+  MLC_UNMATCHED: { label: "작품 미등록", cls: "bg-red-400/15 text-red-300" },
 } as const;
 
 function Check({ ok, warn }: { ok: boolean; warn?: boolean }) {
-  if (ok) return <span className="text-emerald-700 font-semibold">확인됨</span>;
-  return <span className={warn ? "text-amber-700 font-semibold" : "text-red-700 font-semibold"}>확인 안 됨</span>;
+  if (ok) return <span className="text-emerald-400 font-semibold">확인됨</span>;
+  return <span className={warn ? "text-amber-300 font-semibold" : "text-red-400 font-semibold"}>확인 안 됨</span>;
 }
 
 const MLC_ROWS = [
@@ -40,7 +40,7 @@ export default function TraceDemo() {
 
   return (
     <div className="space-y-5">
-      <div className="rounded-xl border border-[var(--line)] bg-white p-4">
+      <div className="rounded-xl border border-[var(--line)] bg-[var(--card)] p-4">
         <p className="text-[13px] font-medium text-[var(--muted)]">
           곡을 선택하면 미국 MLC 공개 DB 조회 결과를 보여줍니다
         </p>
@@ -51,8 +51,8 @@ export default function TraceDemo() {
               onClick={() => setSel(s)}
               className={`rounded-full border px-3 py-1.5 text-[13px] ${
                 sel === s
-                  ? "border-[var(--accent)] bg-[var(--accent)] text-white"
-                  : "border-[var(--line)] bg-white text-[var(--ink)]"
+                  ? "border-transparent btn-grad text-white"
+                  : "border-[var(--line)] bg-white/5 text-[var(--text)]"
               }`}
             >
               {s.title.length > 18 ? s.title.slice(0, 17) + "…" : s.title}
@@ -107,7 +107,7 @@ export default function TraceDemo() {
         </p>
       </div>
 
-      <div className="rounded-xl border border-[var(--line)] bg-white p-4">
+      <div className="rounded-xl border border-[var(--line)] bg-[var(--card)] p-4">
         <p className="text-[14px] font-medium">
           표본 221곡 조사: MLC에서 녹음 연결을 확인할 수 있었던 비율
         </p>
@@ -120,8 +120,8 @@ export default function TraceDemo() {
                 </span>
                 <span className="font-semibold">{r.pct}%</span>
               </div>
-              <div className="mt-1 h-2.5 rounded-full bg-[var(--paper)]">
-                <div className="h-2.5 rounded-full bg-[var(--accent)]" style={{ width: `${r.pct}%` }} />
+              <div className="mt-1 h-2.5 rounded-full bg-white/10">
+                <div className="h-2.5 rounded-full bg-gradient-to-r from-[#7c5cff] to-[#e0447c]" style={{ width: `${r.pct}%` }} />
               </div>
             </div>
           ))}

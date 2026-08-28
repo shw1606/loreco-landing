@@ -55,7 +55,7 @@ export default function MatchDemo() {
   }
 
   return (
-    <div className="rounded-xl border border-[var(--line)] bg-white p-4">
+    <div className="rounded-xl border border-[var(--line)] bg-[var(--card)] p-4">
       <p className="text-[13px] font-medium text-[var(--muted)]">
         시스템마다 다르게 적힌 권리자 표기를 넣어 보세요 (예시가 채워져 있습니다)
       </p>
@@ -63,11 +63,11 @@ export default function MatchDemo() {
         value={text}
         onChange={(e) => setText(e.target.value)}
         rows={7}
-        className="mt-3 w-full rounded-lg border border-[var(--line)] bg-[var(--paper)] p-3 font-mono text-[13px] leading-relaxed"
+        className="mt-3 w-full rounded-lg border border-[var(--line)] bg-black/30 p-3 font-mono text-[13px] leading-relaxed text-[var(--text)]"
       />
       <button
         onClick={run}
-        className="mt-3 rounded-md bg-[var(--accent)] px-4 py-2 text-[14px] font-medium text-white"
+        className="btn-grad mt-3 rounded-full px-5 py-2 text-[14px] font-semibold text-white"
       >
         같은 권리자끼리 묶기
       </button>
@@ -75,8 +75,8 @@ export default function MatchDemo() {
       {groups && (
         <div className="mt-4 space-y-3">
           {Object.entries(groups).map(([k, names]) => (
-            <div key={k} className="rounded-lg border border-[var(--line)] p-3">
-              <p className="text-[13px] font-semibold text-[var(--accent)]">
+            <div key={k} className="rounded-lg border border-[var(--line)] bg-white/5 p-3">
+              <p className="text-[13px] font-semibold text-[#a78bfa]">
                 엔티티 {names.length}건 병합
               </p>
               <ul className="mt-1.5 space-y-0.5 text-[14px]">

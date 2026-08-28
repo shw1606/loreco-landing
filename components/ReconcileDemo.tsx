@@ -66,14 +66,14 @@ export default function ReconcileDemo() {
   const paySum = rows.reduce((a, r) => a + r.pay, 0);
 
   return (
-    <div className="rounded-xl border border-[var(--line)] bg-white overflow-hidden">
+    <div className="rounded-xl border border-[var(--line)] bg-[var(--card)] overflow-hidden">
       <div className="flex border-b border-[var(--line)] text-[13px]">
         {TABS.map((t, i) => (
           <button
             key={t}
             onClick={() => setTab(i)}
             className={`px-3 py-2.5 font-medium ${
-              i === tab ? "text-[var(--accent)] border-b-2 border-[var(--accent)]" : "text-[var(--muted)]"
+              i === tab ? "text-[var(--text)] border-b-2 border-[var(--pink)]" : "text-[var(--muted)]"
             }`}
           >
             {t}
@@ -135,7 +135,7 @@ export default function ReconcileDemo() {
         {!merged ? (
           <button
             onClick={() => setMerged(true)}
-            className="rounded-md bg-[var(--accent)] px-4 py-2 text-[14px] font-medium text-white"
+            className="btn-grad rounded-full px-5 py-2 text-[14px] font-semibold text-white"
           >
             권리자별 분배표 생성
           </button>
@@ -166,7 +166,7 @@ export default function ReconcileDemo() {
               <li>환산: USD 합계는 예시 환율 1달러 1,350원으로 원화 환산했습니다.</li>
               <li>대사: 수입 합계 {won(incomeSum)} = 분배 합계 {won(paySum)}, 차액 0원.</li>
             </ul>
-            <button onClick={() => setMerged(false)} className="mt-4 text-[13px] font-medium text-[var(--accent)] underline">
+            <button onClick={() => setMerged(false)} className="mt-4 text-[13px] font-medium text-[#a78bfa] underline">
               원본 정산서 다시 보기
             </button>
           </div>
