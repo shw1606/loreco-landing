@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Loreco mark">
+  <title>Loreco mark</title>
+  <g transform="translate(50.8 0) scale(-1 1)" fill="none" stroke-width="3.4" stroke-linecap="round">
+    <path d="M22.44 32.86A9 9 0 1 0 20.92 15.54" stroke="#1A1A18" transform="rotate(-16 24 24)"></path>
+    <path d="M21.48 38.28A14.5 14.5 0 1 0 19.04 10.37" stroke="#1F4D3D"></path>
+    <path d="M20.53 43.7A20 20 0 1 0 17.16 5.21" stroke="#1A1A18" transform="rotate(36 24 24)"></path>
+  </g>
+</svg>
