@@ -1,7 +1,8 @@
 export type Locale = "ko" | "en";
 
+// 기본 언어는 영어. 한국어는 ?locale=ko (2026-10-29 변경, 이전엔 한국어 기본)
 export function resolveLocale(v: string | undefined): Locale {
-  return v === "en" ? "en" : "ko";
+  return v === "ko" ? "ko" : "en";
 }
 
 export const COPY = {

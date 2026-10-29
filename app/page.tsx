@@ -50,11 +50,11 @@ function LocaleSwitch({ locale }: { locale: Locale }) {
   const base = "rounded-full px-2 py-0.5";
   return (
     <span className="ml-2 flex items-center gap-1 border-l border-[var(--line)] pl-3 text-[12px] font-semibold">
-      <a href="/" className={`${base} ${locale === "ko" ? "bg-white/10 text-[var(--text)]" : "text-[var(--muted)]"}`}>
+      <a href="/?locale=ko" className={`${base} ${locale === "ko" ? "bg-white/10 text-[var(--text)]" : "text-[var(--muted)]"}`}>
         KO
       </a>
       <a
-        href="/?locale=en"
+        href="/"
         className={`${base} ${locale === "en" ? "bg-white/10 text-[var(--text)]" : "text-[var(--muted)]"}`}
       >
         EN
