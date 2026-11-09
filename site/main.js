@@ -11,16 +11,30 @@
       var fd = new FormData(form);
       var v = function (k) { return (fd.get(k) || '').toString().trim(); };
       var name = v('name'), company = v('company'), title = v('title'), pain = v('pain');
-      var interests = fd.getAll('interest').map(String).filter(function (x) { return x && x !== '기타'; });
-      var who = [company, title, name].filter(Boolean).join(' ');
-      var out = [];
-      out.push(who ? '안녕하세요, ' + who + '입니다.' : '안녕하세요.');
-      out.push('');
-      out.push(interests.length ? interests.join(', ') + ' 쪽으로 Loreco 도입 상담을 받고 싶습니다.' : 'Loreco 도입 상담을 받고 싶습니다.');
-      if (pain) { out.push(''); out.push('요즘 손이 가장 많이 가는 일은 이렇습니다.'); out.push(pain); }
-      out.push(''); out.push('편하실 때 회신 부탁드립니다.'); out.push('감사합니다.');
-      if (name) { out.push(''); out.push(name + ' 드림'); }
-      var subject = 'Loreco 도입 상담 요청' + (company ? ' (' + company + ')' : '');
+      var en = (document.documentElement.lang || '').slice(0, 2) === 'en';
+      var interests = fd.getAll('interest').map(String).filter(function (x) { return x && x !== '기타' && x !== 'Other'; });
+      var out = [], subject;
+      if (en) {
+        var role = [title, company].filter(Boolean).join(' at ');
+        out.push(name ? 'Hi, this is ' + name + (role ? ', ' + role : '') + '.' : 'Hi,');
+        out.push('');
+        var list = interests.map(function (x) { return x.toLowerCase(); });
+        var joined = list.length > 1 ? list.slice(0, -1).join(', ') + (list.length > 2 ? ',' : '') + ' and ' + list[list.length - 1] : list.join('');
+        out.push(list.length ? 'I would like to talk about Loreco for ' + joined + '.' : 'I would like to talk about Loreco.');
+        if (pain) { out.push(''); out.push('What takes the most manual work for us right now:'); out.push(pain); }
+        out.push(''); out.push('Looking forward to hearing from you.');
+        if (name) { out.push(''); out.push('Best,'); out.push(name); }
+        subject = 'Loreco demo request' + (company ? ' (' + company + ')' : '');
+      } else {
+        var who = [company, title, name].filter(Boolean).join(' ');
+        out.push(who ? '안녕하세요, ' + who + '입니다.' : '안녕하세요.');
+        out.push('');
+        out.push(interests.length ? interests.join(', ') + ' 쪽으로 Loreco 도입 상담을 받고 싶습니다.' : 'Loreco 도입 상담을 받고 싶습니다.');
+        if (pain) { out.push(''); out.push('요즘 손이 가장 많이 가는 일은 이렇습니다.'); out.push(pain); }
+        out.push(''); out.push('편하실 때 회신 부탁드립니다.'); out.push('감사합니다.');
+        if (name) { out.push(''); out.push(name + ' 드림'); }
+        subject = 'Loreco 도입 상담 요청' + (company ? ' (' + company + ')' : '');
+      }
       window.location.href = 'mailto:contact@loreco.app?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(out.join('\n'));
     });
   }

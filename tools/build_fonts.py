@@ -11,7 +11,7 @@ SHARED = HERE / "fonts-src"
 OUT = SITE / "fonts"
 OUT.mkdir(exist_ok=True)
 
-src = (SITE / "index.html").read_text(encoding="utf-8")
+src = "".join(p.read_text(encoding="utf-8") for p in sorted(SITE.rglob("*.html")))
 text = re.sub(r"<script.*?</script>", "", src, flags=re.S)
 text = re.sub(r"<[^>]+>", " ", text)
 text = htmlmod.unescape(text)
