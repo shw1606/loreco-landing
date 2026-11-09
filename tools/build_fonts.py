@@ -42,3 +42,13 @@ sub(SHARED / "Newsreader-Regular.ttf", OUT / "newsreader-sub.woff", "U+0020-007E
 
 for lic in ["Pretendard-LICENSE.txt", "geist-OFL.txt", "newsreader-OFL.txt"]:
     shutil.copy(SHARED / lic, OUT / lic)
+
+# 캐시 무효화: 글꼴은 1년 캐시(vercel.json)라, 내용이 바뀌면 주소가 바뀌도록 ?v=<내용 해시>를 붙인다
+import hashlib
+for woff in sorted(OUT.glob("*.woff")):
+    h = hashlib.sha1(woff.read_bytes()).hexdigest()[:10]
+    pat = re.compile(r"fonts/" + re.escape(woff.name) + r"(\?v=[0-9a-f]+)?")
+    for f in [SITE / "style.css", *sorted(SITE.rglob("*.html"))]:
+        s = f.read_text(encoding="utf-8"); s2 = pat.sub(f"fonts/{woff.name}?v={h}", s)
+        if s2 != s: f.write_text(s2, encoding="utf-8")
+    print("versioned", woff.name, h)
